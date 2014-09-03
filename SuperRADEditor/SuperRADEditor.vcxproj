@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>Super RAD Editor</ProjectName>
+    <ProjectGuid>{FECBDBBE-2B5D-429D-B962-4657BDB4D399}</ProjectGuid>
+    <RootNamespace>SuperRADEditor</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ArithmeticExpression.cpp" />
+    <ClCompile Include="ArithmeticLevelOneExpression.cpp" />
+    <ClCompile Include="ArithmeticLevelOneRightExpression.cpp" />
+    <ClCompile Include="ArithmeticRightExpression.cpp" />
+    <ClCompile Include="AssignmentExpression.cpp" />
+    <ClCompile Include="BaseExpression.cpp" />
+    <ClCompile Include="BaseStatement.cpp" />
+    <ClCompile Include="BracketExpression.cpp" />
+    <ClCompile Include="BracketStatement.cpp" />
+    <ClCompile Include="CommentsStatement.cpp" />
+    <ClCompile Include="CompareExpression.cpp" />
+    <ClCompile Include="CompareRightExpression.cpp" />
+    <ClCompile Include="DialogFindReplace.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="ForExpression.cpp" />
+    <ClCompile Include="FunctionCallExpression.cpp" />
+    <ClCompile Include="IfExpression.cpp" />
+    <ClCompile Include="InEndExpression.cpp" />
+    <ClCompile Include="InExpression.cpp" />
+    <ClCompile Include="LogicalAndExpression.cpp" />
+    <ClCompile Include="LogicalAndRightExpression.cpp" />
+    <ClCompile Include="LogicalExpression.cpp" />
+    <ClCompile Include="LogicalNotExpression.cpp" />
+    <ClCompile Include="LogicalRightExpression.cpp" />
+    <ClCompile Include="PrimitiveExpression.cpp" />
+    <ClCompile Include="RadArray.cpp" />
+    <ClCompile Include="RadLexer.cpp" />
+    <ClCompile Include="RadParser.cpp" />
+    <ClCompile Include="RadStructure.cpp" />
+    <ClCompile Include="RadSyntaxException.cpp" />
+    <ClCompile Include="RadToken.cpp" />
+    <ClCompile Include="ScintillaCtrl.cpp" />
+    <ClCompile Include="SpecialFunctionStatement.cpp" />
+    <ClCompile Include="Statements.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StringHelper.cpp" />
+    <ClCompile Include="ToolBarControl.cpp" />
+    <ClCompile Include="TransformCharandWchar.cpp" />
+    <ClCompile Include="UniConversion.cpp" />
+    <ClCompile Include="WhileExpression.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Share.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArithmeticExpression.h" />
+    <ClInclude Include="ArithmeticLevelOneExpression.h" />
+    <ClInclude Include="ArithmeticLevelOneRightExpression.h" />
+    <ClInclude Include="ArithmeticRightExpression.h" />
+    <ClInclude Include="ArrayTerm.h" />
+    <ClInclude Include="AssignmentExpression.h" />
+    <ClInclude Include="AssignmentLeftExpression.h" />
+    <ClInclude Include="AssignmentRightExpression.h" />
+    <ClInclude Include="BaseExpression.h" />
+    <ClInclude Include="BaseStatement.h" />
+    <ClInclude Include="BracketExpression.h" />
+    <ClInclude Include="BracketStatement.h" />
+    <ClInclude Include="CommentsStatement.h" />
+    <ClInclude Include="CompareExpression.h" />
+    <ClInclude Include="CompareRightExpression.h" />
+    <ClInclude Include="DialogFindReplace.h" />
+    <ClInclude Include="ForExpression.h" />
+    <ClInclude Include="FunctionCallExpression.h" />
+    <ClInclude Include="HookRADDll.h" />
+    <ClInclude Include="IfExpression.h" />
+    <ClInclude Include="InEndExpression.h" />
+    <ClInclude Include="InExpression.h" />
+    <ClInclude Include="InHeadExpression.h" />
+    <ClInclude Include="LogicalAndExpression.h" />
+    <ClInclude Include="LogicalAndRightExpression.h" />
+    <ClInclude Include="LogicalExpression.h" />
+    <ClInclude Include="LogicalNotExpression.h" />
+    <ClInclude Include="LogicalRightExpression.h" />
+    <ClInclude Include="PrimitiveExpression.h" />
+    <ClInclude Include="RadArray.h" />
+    <ClInclude Include="RadLexer.h" />
+    <ClInclude Include="RadParser.h" />
+    <ClInclude Include="RadStructure.h" />
+    <ClInclude Include="RadSyntaxException.h" />
+    <ClInclude Include="RadToken.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SciLexer.h" />
+    <ClInclude Include="Scintilla.h" />
+    <ClInclude Include="ScintillaCtrl.h" />
+    <ClInclude Include="SpecialFunctionStatement.h" />
+    <ClInclude Include="Statements.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringHelper.h" />
+    <ClInclude Include="SuperRADEditor.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ToolBarControl.h" />
+    <ClInclude Include="TransformCharandWchar.h" />
+    <ClInclude Include="UniConversion.h" />
+    <ClInclude Include="WhileExpression.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+    <Image Include="Comments.bmp" />
+    <Image Include="FindHS.bmp" />
+    <Image Include="Format.bmp" />
+    <Image Include="icon1.ico" />
+    <Image Include="SaveHL.bmp" />
+    <Image Include="Serialize.bmp" />
+    <Image Include="small.ico" />
+    <Image Include="SuperRADEditor.ico" />
+    <Image Include="Uncomments.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SuperRADEditor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

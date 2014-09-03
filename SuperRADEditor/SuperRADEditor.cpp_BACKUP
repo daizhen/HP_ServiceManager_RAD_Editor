@@ -1,0 +1,407 @@
+// SuperRADEditor.cpp : Defines the entry point for the application.
+//
+
+#include "stdafx.h"
+#include <commctrl.h>
+#include "SuperRADEditor.h"
+#include "ScintillaCtrl.h"
+
+#include "RadLexer.h"
+#include "RadParser.h"
+#include "TransformCharandWchar.h"
+#include "Scintilla.h"
+
+#define MAX_LOADSTRING 100
+
+// Global Variables:
+HINSTANCE hInst;								// current instance
+TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
+TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+
+// Forward declarations of functions included in this code module:
+ATOM				MyRegisterClass(HINSTANCE hInstance);
+BOOL				InitInstance(HINSTANCE, int);
+LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK MainForm(HWND, UINT, WPARAM, LPARAM);
+
+HWND    hToolbar;
+
+void OnFormatRAD(HWND hWnd);
+void OnSerializeRAD(HWND hWnd);
+
+void charTowchar(const char *chr, wchar_t *wchar, int size);
+ScintillaCtrl scintillaCtrl;
+ScintillaCtrl scintillaCtrlForMain;
+
+int APIENTRY _tWinMain(HINSTANCE hInstance,
+					   HINSTANCE hPrevInstance,
+					   LPTSTR    lpCmdLine,
+					   int       nCmdShow)
+{
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+
+	// TODO: Place code here.
+	MSG msg;
+	HACCEL hAccelTable;
+
+	// Initialize global strings
+	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+	LoadString(hInstance, IDC_SUPERRADEDITOR, szWindowClass, MAX_LOADSTRING);
+	MyRegisterClass(hInstance);
+
+	// Perform application initialization:
+	if (!InitInstance (hInstance, nCmdShow))
+	{
+		return FALSE;
+	}
+
+	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SUPERRADEDITOR));
+
+	// Main message loop:
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
+
+	return (int) msg.wParam;
+}
+
+
+
+//
+//  FUNCTION: MyRegisterClass()
+//
+//  PURPOSE: Registers the window class.
+//
+//  COMMENTS:
+//
+//    This function and its usage are only necessary if you want this code
+//    to be compatible with Win32 systems prior to the 'RegisterClassEx'
+//    function that was added to Windows 95. It is important to call this function
+//    so that the application will get 'well formed' small icons associated
+//    with it.
+//
+ATOM MyRegisterClass(HINSTANCE hInstance)
+{
+	WNDCLASSEX wcex;
+
+	wcex.cbSize = sizeof(WNDCLASSEX);
+
+	wcex.style			= CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc	= WndProc;
+	wcex.cbClsExtra		= 0;
+	wcex.cbWndExtra		= 0;
+	wcex.hInstance		= hInstance;
+	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SUPERRADEDITOR));
+	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_SUPERRADEDITOR);
+	wcex.lpszClassName	= szWindowClass;
+	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
+	return RegisterClassEx(&wcex);
+}
+
+//
+//   FUNCTION: InitInstance(HINSTANCE, int)
+//
+//   PURPOSE: Saves instance handle and creates main window
+//
+//   COMMENTS:
+//
+//        In this function, we save the instance handle in a global variable and
+//        create and display the main program window.
+//
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+{
+	HWND hWnd;
+
+	hInst = hInstance; // Store instance handle in our global variable
+
+	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+
+	if (!hWnd)
+	{
+		return FALSE;
+	}
+
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
+
+	return TRUE;
+}
+
+//
+//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
+//
+//  PURPOSE:  Processes messages for the main window.
+//
+//  WM_COMMAND	- process the application menu
+//  WM_PAINT	- Paint the main window
+//  WM_DESTROY	- post a quit message and return
+//
+//
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	int wmId, wmEvent;
+	PAINTSTRUCT ps;
+	HDC hdc;
+	HMODULE hmod ;
+	int width;
+	int height;
+	const char *notifyText;
+	
+	SCNotification *pSCNotification;
+	switch (message)
+	{
+	case WM_CHAR:
+			
+	case WM_KEYDOWN:
+
+		break;
+	case WM_SYSCHAR:
+		break;
+	case WM_NOTIFY:
+		pSCNotification = (SCNotification*)lParam;
+		if(pSCNotification!= NULL)
+		{
+			switch (pSCNotification->nmhdr.code)
+			{
+			case SCN_KEY:
+						notifyText = pSCNotification->text;
+					break;
+			}
+		}
+		break;
+	case WM_CREATE:
+		hmod = LoadLibrary(_T("SciLexer.DLL"));
+
+		//if (hmod==NULL)
+		//{
+		//	MessageBox(hWnd,
+		//		_T ("The Scintilla DLL could not be loaded."),
+		//		_T ("Error loading Scintilla"),
+		//		MB_OK | MB_ICONERROR);
+		//}
+
+		//scintillaCtrl.Create(hWnd);
+		//scintillaCtrl.SetEnrionment();
+		break;
+
+	case WM_SIZE:
+
+		RECT rect;
+		//GetWindowRect(hWnd,&rect);
+		GetClientRect(hWnd,&rect);
+		width = (int)(rect.right -  rect.left);
+		height = (int)(rect.bottom - rect.top);
+		MoveWindow(scintillaCtrl.scinlliaWnd,0,0,width,height,TRUE);
+
+		break;
+	case WM_COMMAND:
+		wmId    = LOWORD(wParam);
+		wmEvent = HIWORD(wParam);
+		// Parse the menu selections:
+		switch (wmId)
+		{
+		case IDM_ABOUT:
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			break;
+		case IDM_EXIT:
+			DestroyWindow(hWnd);
+			break;
+
+		case ID_EDIT_FORMATRAD:
+			//Format RAD
+			OnFormatRAD(hWnd);
+			break;
+		case ID_EDIT_SERIALIZERAD:
+			//Serialize RAD
+
+			OnSerializeRAD(hWnd);
+			break;
+		case ID_FILE_SAVE:
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOGMAIN), hWnd, MainForm);
+			
+			break;
+
+		default:
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+		break;
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		// TODO: Add any drawing code here...
+		EndPaint(hWnd, &ps);
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
+}
+
+// Message handler for about box.
+INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
+
+// Message handler for Main box.
+INT_PTR CALLBACK MainForm(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	int wmId, wmEvent;
+	UNREFERENCED_PARAMETER(lParam);
+
+	RECT rect;
+	int width;
+	int height ;
+
+	switch (message)
+	{
+		break;
+	case WM_SIZE:
+
+		//GetWindowRect(hWnd,&rect);
+		GetClientRect(hDlg,&rect);
+		width = (int)(rect.right -  rect.left);
+		height = (int)(rect.bottom - rect.top);
+		MoveWindow(scintillaCtrl.scinlliaWnd,0,0,width,height,TRUE);
+		break;
+	case WM_INITDIALOG:
+	case WM_CREATE:
+		scintillaCtrl.Create(hDlg);
+		scintillaCtrl.SetEnrionment();
+
+	case WM_COMMAND:
+		
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+
+		wmId    = LOWORD(wParam);
+		wmEvent = HIWORD(wParam);
+
+		switch (wmId)
+		{
+		case IDM_ABOUT:
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hDlg, About);
+			break;
+		case IDM_EXIT:
+			DestroyWindow(hDlg);
+			break;
+
+		case ID_EDIT_FORMATRAD:
+			//Format RAD
+			OnFormatRAD(hDlg);
+			break;
+		case ID_EDIT_SERIALIZERAD:
+			//Serialize RAD
+
+			OnSerializeRAD(hDlg);
+			break;
+		case ID_FILE_SAVE:
+			//DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOGMAIN), hDlg, MainForm);
+			
+			break;
+
+		default:
+			return DefWindowProc(hDlg, message, wParam, lParam);
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
+
+
+void OnSerializeRAD(HWND hWnd)
+{
+
+	char* chars = scintillaCtrl.GetText();
+
+    string str(chars);
+    RadLexer lexer(str);
+    lexer.Build();
+
+    RadParser parser(lexer.GetTokens());
+    Statements* statements =NULL;
+
+	TransformCharandWchar transform;
+    try
+    {
+		scintillaCtrl.ScrollToLeftSide();
+        statements = parser.Parse();
+        scintillaCtrl.SetText(statements->ToString());
+        delete statements;
+    }
+    catch(exception e)
+    {
+		MessageBoxEx(hWnd,transform.CharToWchar(e.what()),
+			_T ("Syntax Error"),
+			MB_OK | MB_ICONERROR,NULL);
+
+        if(statements!=NULL)
+        {
+            delete statements;
+        }
+    }
+}
+
+
+
+void OnFormatRAD(HWND hWnd)
+{
+
+	char* chars = scintillaCtrl.GetText();
+
+    string str(chars);
+    RadLexer lexer(str);
+    lexer.Build();
+
+    RadParser parser(lexer.GetTokens());
+    Statements* statements =NULL;
+	TransformCharandWchar transform;
+    try
+    {
+		scintillaCtrl.ScrollToLeftSide();
+        statements = parser.Parse();
+        scintillaCtrl.SetText(statements->ToString(0));
+        delete statements;
+    }
+    catch(exception e)
+    {
+		MessageBoxEx(hWnd,transform.CharToWchar(e.what()),
+				_T ("Syntax Error"),
+				MB_OK | MB_ICONERROR,NULL);
+
+        if(statements!=NULL)
+        {
+            delete statements;
+        }
+    }
+}
