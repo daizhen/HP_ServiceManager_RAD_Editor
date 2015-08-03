@@ -17,3 +17,7 @@ This is a editor tool for coding/viewing Service Manager RAD programs.
 
 
 ##Supported Service Manager Versions##
+From 7.X to the latest 9.40
+
+
+## Snap shoot##
