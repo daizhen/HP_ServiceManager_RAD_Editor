@@ -4,7 +4,8 @@ This is a editor tool for coding/viewing Service Manager RAD program.
 
 ## How to Use##
 - Down **SM RAD Editor Runable.zip** and unzip it to anywhere in your local computer. And you will see the executable file **EditorStart.exe** 
-- Run **EditorStart.exe** and you will see there is an mask icon on the computer status bar.
+- Run **EditorStart.exe** and you will see there is an mask icon on the computer status bar, as shown below:
+![Icon](https://github.com/daizhen/SM_RAD_Editor/tree/master/res/Icon.png)
 - You can Start / Stop the editor from the context menu of the icon.(When start the editor, ensure the Service Manager Client is running).
 - Go to service Manager, and select any line of code and press **Control + R** to open the editor.
 
