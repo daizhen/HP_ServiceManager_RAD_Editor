@@ -40,7 +40,8 @@ This is a editor tool for coding/viewing Service Manager RAD program.
 3.  How to extract mulit lines of code from list control?
 	1.  Select any line of code, but ensure the edit cursor is not shown within it.
 	2.  Press  **Control + R**
-
+4. The editor is pop as model window, which means When the editor is open you cannot touch the Service Manager interface anymore before the editor closed.
+5.  I also created a stand-alone RAD editor with the same functionality to avoid problem of 4#. [https://github.com/daizhen/netRADEditor](https://github.com/daizhen/netRADEditor "netRADEditor")
 
 ##Supported Service Manager Versions##
 From 7.X to the latest 9.40
