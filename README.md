@@ -44,4 +44,4 @@ This is a editor tool for coding/viewing Service Manager RAD program.
 5.  I also created a stand-alone RAD editor with the same functionality to avoid problem of 4#. [https://github.com/daizhen/netRADEditor](https://github.com/daizhen/netRADEditor "netRADEditor")
 
 ##Supported Service Manager Versions##
-From 7.X to the latest 9.40
+From 7.x to the latest 9.40
